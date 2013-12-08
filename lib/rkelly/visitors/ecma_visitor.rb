@@ -277,7 +277,7 @@ module RKelly
       end
 
       def visit_FunctionExprNode(o)
-        "#{o.value}(#{o.arguments.map { |x| x.accept(self) }.join(', ')}) " +
+        (o.value != "function" ? "function " : "") + "#{o.value}(#{o.arguments.map { |x| x.accept(self) }.join(', ')}) " +
           "#{o.function_body.accept(self)}"
       end
 
