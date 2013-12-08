@@ -152,6 +152,26 @@ class TokenizerTest < Test::Unit::TestCase
     ], tokens)
   end
 
+  def test_unicode_string
+    tokens = @tokenizer.tokenize("foo = 'צהüץ';")
+    assert_tokens([
+                 [:IDENT, 'foo'],
+                 ['=', '='],
+                 [:STRING, "'צהüץ'"],
+                 [';', ';'],
+    ], tokens)
+  end
+
+  def test_unicode_regex
+    tokens = @tokenizer.tokenize("foo = /צהüץ/;")
+    assert_tokens([
+                 [:IDENT, 'foo'],
+                 ['=', '='],
+                 [:REGEXP, "/צהüץ/"],
+                 [';', ';'],
+    ], tokens)
+  end
+
   def assert_tokens(expected, actual)
     assert_equal(expected, actual.select { |x| x[0] != :S })
   end
